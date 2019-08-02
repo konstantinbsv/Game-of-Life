@@ -13,11 +13,13 @@ public class Main {
          */
         Scanner scanner = new Scanner(System.in);
         int universeSize = scanner.nextInt();
-        int randomSeed = scanner.nextInt();
+        long randomSeed = scanner.nextLong();
+        int generations = scanner.nextInt();
 
         Universe universe = new Universe(universeSize, randomSeed);
+
+        Evolution.evolve(universe, generations);
+
         universe.printUniverse();
-
-
     }
 }
