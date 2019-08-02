@@ -15,37 +15,9 @@ public class Main {
         int universeSize = scanner.nextInt();
         int randomSeed = scanner.nextInt();
 
-        boolean[][] universe = initializeUniverse(universeSize, randomSeed);
-        printUniverse(universe);
+        Universe universe = new Universe(universeSize, randomSeed);
+        universe.printUniverse();
 
-    }
 
-    public static boolean[][] initializeUniverse(int universeSize, int randomSeed) {
-        boolean[][] universe = new boolean[universeSize][universeSize];
-        Random rand = new Random(randomSeed);
-
-        for (int i = 0; i < universeSize; i++) {
-            for (int j = 0; j < universeSize; j++) {
-                universe[i][j] = rand.nextBoolean();
-            }
-        }
-        return universe;
-    }
-
-    public static void printUniverse(boolean[][] universe) {
-        final String ALIVE = "O";
-        final String DEAD  = " ";
-
-        for (boolean[] row: universe) {
-            for (boolean cell: row) {
-                if (cell) {
-                    System.out.print(ALIVE);
-                } else {
-                    System.out.print(DEAD);
-                }
-               // System.out.print(" ");
-            }
-            System.out.println();
-        }
     }
 }
