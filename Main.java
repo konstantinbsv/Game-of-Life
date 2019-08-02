@@ -19,8 +19,19 @@ public class Main {
         Universe universe = new Universe(universeSize, System.currentTimeMillis());
 
         while (generations-- > 0) {
+            clearConsole();
             Evolution.evolve(universe);
             universe.printUniverse();
+
+            sleep(500);
+        }
+    }
+
+    public static void sleep(int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
