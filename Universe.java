@@ -30,7 +30,9 @@ class Universe {
         int aliveCells = 0;
         for (boolean[] row : universe) {
             for (boolean cell : row) {
-                aliveCells++;
+                if (cell) {
+                    aliveCells++;
+                }
             }
         }
         return aliveCells;
