@@ -1,5 +1,6 @@
 package life;
 
+import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -13,13 +14,23 @@ public class Main {
          */
         Scanner scanner = new Scanner(System.in);
         int universeSize = scanner.nextInt();
-        long randomSeed = scanner.nextLong();
         int generations = scanner.nextInt();
 
-        Universe universe = new Universe(universeSize, randomSeed);
+        Universe universe = new Universe(universeSize, System.currentTimeMillis());
 
-        Evolution.evolve(universe, generations);
+        while (generations-- > 0) {
+            Evolution.evolve(universe);
+            universe.printUniverse();
+        }
+    }
 
-        universe.printUniverse();
+    public static void clearConsole(){
+        try {
+            if (System.getProperty("os.name").contains("Windows"))
+                new ProcessBuilder("cmd","/c","cls").inheritIO().start().waitFor();
+            else
+                Runtime.getRuntime().exec("clear");
+        }
+        catch (IOException | InterruptedException e) {}
     }
 }
