@@ -6,27 +6,24 @@ class Evolution {
     private final static boolean ALIVE = true;
     private final static boolean DEAD  = false;
 
-    static void evolve(Universe universe, int generations) {
+    static void evolve(Universe universe) {
         boolean[][] currentGen = universe.getUniverse();
         boolean[][] nextGen    = universe.getUniverse();
 
-        while (generations-- > 0) {
+        for (int i = 0; i < currentGen.length; i++) {
+            for (int j = 0; j < currentGen.length; j++) {
+                int aliveNeighbours = countAliveNeighbours(currentGen, i, j);
 
-            for (int i = 0; i < currentGen.length; i++) {
-                for (int j = 0; j < currentGen.length; j++) {
-                    int aliveNeighbours = countAliveNeighbours(currentGen, i, j);
-
-                    if (aliveNeighbours == 3) {
-                        nextGen[i][j] = ALIVE;
-                    } else if (aliveNeighbours == 2) {
-                        // nextGen[i][j] = currentGen[i][j];
-                    } else {
-                        nextGen[i][j] = DEAD;
-                    }
+                if (aliveNeighbours == 3) {
+                    nextGen[i][j] = ALIVE;
+                } else if (aliveNeighbours == 2) {
+                    // nextGen[i][j] = currentGen[i][j];
+                } else {
+                    nextGen[i][j] = DEAD;
                 }
             }
-            currentGen = Arrays.stream(nextGen).map(r -> r.clone()).toArray(boolean[][]::new);
         }
+
         universe.setUniverse(nextGen);
     }
 
