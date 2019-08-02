@@ -1,7 +1,6 @@
 package life;
 
 import java.io.IOException;
-import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
@@ -13,15 +12,18 @@ public class Main {
         }
          */
         Scanner scanner = new Scanner(System.in);
-        int universeSize = scanner.nextInt();
-        int generations = scanner.nextInt();
+        final int GENERATION_LIMIT = 100;
 
+        int universeSize = scanner.nextInt();
         Universe universe = new Universe(universeSize, System.currentTimeMillis());
 
-        while (generations-- > 0) {
+        for (int currentGen = 1;  currentGen <= GENERATION_LIMIT; currentGen ++) {
             clearConsole();
-            Evolution.evolve(universe);
+
+            System.out.println("Generation: #" + currentGen);
+            System.out.println("Alive: " + universe.countAliveCells());
             universe.printUniverse();
+            Evolution.evolve(universe);
 
             sleep(500);
         }
