@@ -3,10 +3,10 @@ package life;
 import java.util.Arrays;
 import java.util.Random;
 
-public class Universe {
+class Universe {
     private boolean[][] universe;
 
-    public Universe (int universeSize, long randomSeed) {
+    Universe (int universeSize, long randomSeed) {
         universe = new boolean[universeSize][universeSize];
         Random rand = new Random(randomSeed);
 
@@ -18,15 +18,25 @@ public class Universe {
     }
 
 
-    public boolean[][] getUniverse() {
+    boolean[][] getUniverse() {
         return  Arrays.stream(universe).map(r -> r.clone()).toArray(boolean[][]::new);
     }
 
-    public void setUniverse(boolean[][] universe) {
+    void setUniverse(boolean[][] universe) {
         this.universe = Arrays.stream(universe).map(r -> r.clone()).toArray(boolean[][]::new);
     }
 
-    public void printUniverse() {
+    int countAliveCells() {
+        int aliveCells = 0;
+        for (boolean[] row : universe) {
+            for (boolean cell : row) {
+                aliveCells++;
+            }
+        }
+        return aliveCells;
+    }
+
+    void printUniverse() {
         final char ALIVE = 'O';
         final char DEAD = ' ';
 
