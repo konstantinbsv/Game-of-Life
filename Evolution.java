@@ -1,7 +1,5 @@
 package life;
 
-import java.util.Arrays;
-
 class Evolution {
     private final static boolean ALIVE = true;
     private final static boolean DEAD  = false;
