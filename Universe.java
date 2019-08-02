@@ -1,12 +1,13 @@
 package life;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class Universe {
     private boolean[][] universe;
 
-    public Universe (int universeSize, int randomSeed) {
-        boolean[][] universe = new boolean[universeSize][universeSize];
+    public Universe (int universeSize, long randomSeed) {
+        universe = new boolean[universeSize][universeSize];
         Random rand = new Random(randomSeed);
 
         for (int i = 0; i < universeSize; i++) {
@@ -18,7 +19,11 @@ public class Universe {
 
 
     public boolean[][] getUniverse() {
-        return universe;
+        return  Arrays.stream(universe).map(r -> r.clone()).toArray(boolean[][]::new);
+    }
+
+    public void setUniverse(boolean[][] universe) {
+        this.universe = Arrays.stream(universe).map(r -> r.clone()).toArray(boolean[][]::new);
     }
 
     public void printUniverse() {
@@ -32,7 +37,6 @@ public class Universe {
                 } else {
                     System.out.print(DEAD);
                 }
-                // System.out.print(" ");
             }
             System.out.println();
         }
