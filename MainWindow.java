@@ -17,7 +17,7 @@ public class MainWindow extends JFrame {
         super("Game of Life");
         setName("Game of Life");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(500, 500);
+        setSize(22 + SquareGrid.squareSize*gridSize,  80 + gridSize*SquareGrid.squareSize);
         setLocationRelativeTo(null);
 
         generationCount.setBounds(xOffset,2, labelWidth, labelHeight);
@@ -35,6 +35,7 @@ public class MainWindow extends JFrame {
         grid.repaint();
 
         setLayout(null);
+        // setResizable(false);
         setVisible(true);
     }
 
@@ -53,7 +54,7 @@ public class MainWindow extends JFrame {
     }
 
     private class SquareGrid extends JPanel {
-        final int squareSize = 15;
+        final static int squareSize = 15;
 
         private int gridSize;
         private boolean[][] universeGrid;
