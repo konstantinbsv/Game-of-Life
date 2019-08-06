@@ -11,18 +11,30 @@ public class Main {
             System.exit(-1);
         }
          */
-        Scanner scanner = new Scanner(System.in);
         final int GENERATION_LIMIT = 100;
 
-        int universeSize = scanner.nextInt();
+        Scanner scanner = new Scanner(System.in);
+        final int universeSize = scanner.nextInt();
+
         Universe universe = new Universe(universeSize, System.currentTimeMillis());
+        MainWindow mainWindow = new MainWindow(universeSize);
+
+        int aliveCells;
 
         for (int currentGen = 1;  currentGen <= GENERATION_LIMIT; currentGen ++) {
             clearConsole();
+            aliveCells = universe.countAliveCells();
 
+            // update console
             System.out.println("Generation: #" + currentGen);
-            System.out.println("Alive: " + universe.countAliveCells());
+            System.out.println("Alive: " + aliveCells);
             universe.printUniverse();
+
+            // update main window
+            mainWindow.setGenerationNumber(currentGen);
+            mainWindow.setAliveNumber(aliveCells);
+            mainWindow.updateGrid(universe.getUniverse());
+
             Evolution.evolve(universe);
 
             sleep(500);
