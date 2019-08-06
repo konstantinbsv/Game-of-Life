@@ -3,7 +3,7 @@ package life;
 import javax.swing.*;
 import java.awt.*;
 
-public class MainWindow extends JFrame {
+public class GameOfLife extends JFrame {
     final Font font = new Font("Dialog", Font.PLAIN, 16);
     final int labelWidth = 150;
     final int labelHeight = 15;
@@ -13,7 +13,7 @@ public class MainWindow extends JFrame {
     private JLabel aliveCount = new JLabel();
     private SquareGrid grid;
 
-    public MainWindow(int gridSize) {
+    public GameOfLife(int gridSize) {
         super("Game of Life");
         setName("Game of Life");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -22,12 +22,14 @@ public class MainWindow extends JFrame {
 
         generationCount.setBounds(xOffset,2, labelWidth, labelHeight);
         generationCount.setFont(font);
-        generationCount.setText("Generation #xxx");
+        generationCount.setText("Generation #0");
+        generationCount.setName("GenerationLabel");
         add(generationCount);
 
         aliveCount.setBounds(xOffset,19, labelWidth, labelHeight);
         aliveCount.setFont(font);
-        aliveCount.setText("Alive: xxx");
+        aliveCount.setText("Alive: 0");
+        aliveCount.setName("AliveLabel");
         add(aliveCount);
 
         grid = new SquareGrid(gridSize);
@@ -90,7 +92,7 @@ public class MainWindow extends JFrame {
     }
 
     public static void main(String[] args) {
-        MainWindow mainWindow = new MainWindow(40);
+        GameOfLife mainWindow = new GameOfLife(40);
 
     }
 }

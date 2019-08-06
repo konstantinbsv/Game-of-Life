@@ -17,7 +17,7 @@ public class Main {
         final int universeSize = scanner.nextInt();
 
         Universe universe = new Universe(universeSize, System.currentTimeMillis());
-        MainWindow mainWindow = new MainWindow(universeSize);
+        GameOfLife GameOfLife = new GameOfLife(universeSize);
 
         int aliveCells;
 
@@ -31,13 +31,13 @@ public class Main {
             universe.printUniverse();
 
             // update main window
-            mainWindow.setGenerationNumber(currentGen);
-            mainWindow.setAliveNumber(aliveCells);
-            mainWindow.updateGrid(universe.getUniverse());
+            GameOfLife.setGenerationNumber(currentGen);
+            GameOfLife.setAliveNumber(aliveCells);
+            GameOfLife.updateGrid(universe.getUniverse());
 
             Evolution.evolve(universe);
 
-            sleep(500);
+            sleep(250);
         }
     }
 
