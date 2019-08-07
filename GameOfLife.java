@@ -194,10 +194,6 @@ public class GameOfLife extends JFrame {
         return isReset;
     }
 
-    public void setReset(boolean reset) {
-        isReset = reset;
-    }
-
     private class SquareGrid extends JPanel {
         private double squareSize;
 
