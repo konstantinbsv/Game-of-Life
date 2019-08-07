@@ -4,9 +4,18 @@ import java.util.Arrays;
 import java.util.Random;
 
 class Universe {
+    private static Universe sUniverse;
+
     private boolean[][] universe;
 
-    Universe (int universeSize, long randomSeed) {
+    public static Universe get(int universeSize, long randomSeed) {
+        if (sUniverse == null) {
+            sUniverse = new Universe(universeSize, randomSeed);
+        }
+        return sUniverse;
+    }
+
+    private Universe (int universeSize, long randomSeed) {
         universe = new boolean[universeSize][universeSize];
         Random rand = new Random(randomSeed);
 
@@ -18,12 +27,18 @@ class Universe {
     }
 
 
-    boolean[][] getUniverse() {
+    boolean[][] getUniverseArray() {
         return  Arrays.stream(universe).map(r -> r.clone()).toArray(boolean[][]::new);
     }
 
     void setUniverse(boolean[][] universe) {
         this.universe = Arrays.stream(universe).map(r -> r.clone()).toArray(boolean[][]::new);
+    }
+    void resetUniverse() {
+        Evolution.resetEvolution();
+        for (boolean[] row: universe) {
+            Arrays.fill(row, false);
+        }
     }
 
     int countAliveCells() {
