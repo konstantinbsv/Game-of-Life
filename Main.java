@@ -1,26 +1,21 @@
 package life;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        /*
-        if (args.length != 2) {
-            System.out.println("Requires two arguments: <universe size> <random seed>");
-            System.exit(-1);
-        }
-         */
 
-        Scanner scanner = new Scanner(System.in);
-        final int universeSize = 40;
-
-        Universe universe = Universe.get(universeSize);
-        GameOfLife gameOfLife = new GameOfLife(universeSize);
+        GameOfLife gameOfLife = new GameOfLife();
+        Universe universe = new Universe(gameOfLife.getUniverseSize());
 
         int aliveCells;
 
         while (true) {
+
+            if (gameOfLife.isReset()) {
+                universe = new Universe(gameOfLife.getUniverseSize());
+                Evolution.resetEvolution();
+            }
 
             if (!gameOfLife.isPaused()) {
                 clearConsole();
