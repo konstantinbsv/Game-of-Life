@@ -4,9 +4,11 @@ class Evolution {
     private final static boolean ALIVE = true;
     private final static boolean DEAD  = false;
 
+    private static int currentGenNumber = 1;
+
     static void evolve(Universe universe) {
-        boolean[][] currentGen = universe.getUniverse();
-        boolean[][] nextGen    = universe.getUniverse();
+        boolean[][] currentGen = universe.getUniverseArray();
+        boolean[][] nextGen    = universe.getUniverseArray();
 
         for (int i = 0; i < currentGen.length; i++) {
             for (int j = 0; j < currentGen.length; j++) {
@@ -22,7 +24,16 @@ class Evolution {
             }
         }
 
+        currentGenNumber++;
         universe.setUniverse(nextGen);
+    }
+
+    public static void resetEvolution() {
+        Evolution.currentGenNumber = 1;
+    }
+
+    public static int getCurrentGenNumber() {
+        return currentGenNumber;
     }
 
     private static int countAliveNeighbours(boolean[][] universeArray, int row, int col) {
