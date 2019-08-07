@@ -1,36 +1,89 @@
 package life;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class GameOfLife extends JFrame {
     final Font font = new Font("Dialog", Font.PLAIN, 16);
     final int labelWidth = 150;
     final int labelHeight = 15;
-    final int xOffset = 5;
+    final int buttonWidth = 100;
+    final int buttonHeight = 25;
+    final int xOffset = 150;
+    final int topMargin = 5;
+    final int leftMargin = 10;
 
     private JLabel generationCount = new JLabel();
     private JLabel aliveCount = new JLabel();
+    private JToggleButton startStopButton = new JToggleButton();
+    private JButton resetButton = new JButton();
+    private JSlider speedSlider = new JSlider(100, 500, 250);
     private SquareGrid grid;
+
+    private boolean isPaused = false;
+    private int evolutionSpeed;
 
     public GameOfLife(int gridSize) {
         super("Game of Life");
         setName("Game of Life");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(22 + SquareGrid.squareSize*gridSize,  80 + gridSize*SquareGrid.squareSize);
+        setSize(xOffset + leftMargin*2 + SquareGrid.squareSize*gridSize,  50 + gridSize*SquareGrid.squareSize);
         setLocationRelativeTo(null);
 
-        generationCount.setBounds(xOffset,2, labelWidth, labelHeight);
+        generationCount.setBounds(leftMargin, topMargin, labelWidth, labelHeight);
         generationCount.setFont(font);
         generationCount.setText("Generation #0");
         generationCount.setName("GenerationLabel");
         add(generationCount);
 
-        aliveCount.setBounds(xOffset,19, labelWidth, labelHeight);
+        aliveCount.setBounds(leftMargin, topMargin + 17, labelWidth, labelHeight);
         aliveCount.setFont(font);
         aliveCount.setText("Alive: 0");
         aliveCount.setName("AliveLabel");
         add(aliveCount);
+
+        startStopButton.setBounds(leftMargin, topMargin + 40, buttonWidth, buttonHeight);
+        startStopButton.setName("PlayToggleButton");
+        startStopButton.setText("Start/Stop");
+        // startStopButton.setIcon();
+        startStopButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                isPaused = !isPaused;
+            }
+        });
+        add(startStopButton);
+
+        resetButton.setBounds(leftMargin, topMargin + 70, buttonWidth, buttonHeight);
+        resetButton.setName("ResetButton");
+        resetButton.setText("Reset");
+        resetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Universe.resetUniverse();
+            }
+        });
+        add(resetButton);
+
+        speedSlider.setBounds(leftMargin, topMargin + 110, buttonWidth + 30, buttonHeight+20);
+        speedSlider.setPaintTicks(true);
+        speedSlider.setPaintLabels(true);
+        speedSlider.setMajorTickSpacing(100);
+        speedSlider.setMinorTickSpacing(50);
+        evolutionSpeed = speedSlider.getValue();
+        speedSlider.setName("SpeedSlider");
+        speedSlider.setToolTipText("Slide to adjust evolution speed");
+        speedSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                evolutionSpeed = speedSlider.getValue();
+            }
+        });
+        add(speedSlider);
 
         grid = new SquareGrid(gridSize);
         add(grid);
@@ -49,10 +102,18 @@ public class GameOfLife extends JFrame {
         aliveCount.setText("Alive: " + aliveNumber);
     }
 
+    public boolean isPaused() {
+        return isPaused;
+    }
+
     public void updateGrid(boolean[][] universeGrid) {
         grid.setUniverseGrid(universeGrid);
         add(grid);
         grid.repaint();
+    }
+
+    public int getEvolutionSpeed() {
+        return evolutionSpeed;
     }
 
     private class SquareGrid extends JPanel {
@@ -63,7 +124,7 @@ public class GameOfLife extends JFrame {
 
         private SquareGrid(int gridSize) {
             this.gridSize = gridSize;
-            setBounds(xOffset, 40, squareSize*gridSize, squareSize*gridSize);
+            setBounds(xOffset, topMargin, squareSize*gridSize, squareSize*gridSize);
             setLayout(new GridLayout(gridSize, gridSize));
         }
 
