@@ -11,33 +11,35 @@ public class Main {
             System.exit(-1);
         }
          */
-        final int GENERATION_LIMIT = 100;
 
         Scanner scanner = new Scanner(System.in);
-        final int universeSize = scanner.nextInt();
+        final int universeSize = 40;
 
-        Universe universe = new Universe(universeSize, System.currentTimeMillis());
-        GameOfLife GameOfLife = new GameOfLife(universeSize);
+        Universe universe = Universe.get(universeSize);
+        GameOfLife gameOfLife = new GameOfLife(universeSize);
 
         int aliveCells;
 
-        for (int currentGen = 1;  currentGen <= GENERATION_LIMIT; currentGen ++) {
-            clearConsole();
-            aliveCells = universe.countAliveCells();
+        while (true) {
 
-            // update console
-            System.out.println("Generation: #" + currentGen);
-            System.out.println("Alive: " + aliveCells);
-            universe.printUniverse();
+            if (!gameOfLife.isPaused()) {
+                clearConsole();
+                aliveCells = universe.countAliveCells();
 
-            // update main window
-            GameOfLife.setGenerationNumber(currentGen);
-            GameOfLife.setAliveNumber(aliveCells);
-            GameOfLife.updateGrid(universe.getUniverse());
+                // update console
+                System.out.println("Generation: #" + Evolution.getCurrentGenNumber());
+                System.out.println("Alive: " + aliveCells);
+                universe.printUniverse();
 
-            Evolution.evolve(universe);
+                // update main window
+                gameOfLife.setGenerationNumber(Evolution.getCurrentGenNumber());
+                gameOfLife.setAliveNumber(aliveCells);
+                gameOfLife.updateGrid(universe.getUniverseArray());
 
-            sleep(250);
+                Evolution.evolve(universe);
+            }
+
+                sleep(gameOfLife.getEvolutionSpeed());
         }
     }
 
