@@ -4,18 +4,20 @@ import java.util.Arrays;
 import java.util.Random;
 
 class Universe {
-    private static Universe sUniverse;
+    // private static Universe sUniverse;
 
-    private boolean[][] universe;
+    private static int universeSize;
+    private static boolean[][] universe;
 
-    public static Universe get(int universeSize) {
-        if (sUniverse == null) {
-            sUniverse = new Universe(universeSize);
-        }
-        return sUniverse;
-    }
+//    public static Universe get(int universeSize) {
+//        if (sUniverse == null) {
+//            sUniverse = new Universe(universeSize);
+//        }
+//        return sUniverse;
+//    }
 
-    private Universe (int universeSize) {
+    public Universe (int universeSize) {
+        this.universeSize = universeSize;
         universe = new boolean[universeSize][universeSize];
         Random rand = new Random(System.currentTimeMillis());
 
@@ -34,14 +36,15 @@ class Universe {
     void setUniverse(boolean[][] universe) {
         this.universe = Arrays.stream(universe).map(r -> r.clone()).toArray(boolean[][]::new);
     }
-    static void resetUniverse() {
-        if (sUniverse == null) {
-            return;
-        }
+    static void resetUniverse(int universeSize) {
 
         Evolution.resetEvolution();
-        for (boolean[] row: sUniverse.universe) {
-            Arrays.fill(row, false);
+        Random rand = new Random(System.currentTimeMillis());
+
+        for (int i = 0; i < universeSize; i++) {
+            for (int j = 0; j < universeSize; j++) {
+                universe[i][j] = rand.nextBoolean();
+            }
         }
     }
 
