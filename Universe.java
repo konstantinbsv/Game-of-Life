@@ -8,16 +8,16 @@ class Universe {
 
     private boolean[][] universe;
 
-    public static Universe get(int universeSize, long randomSeed) {
+    public static Universe get(int universeSize) {
         if (sUniverse == null) {
-            sUniverse = new Universe(universeSize, randomSeed);
+            sUniverse = new Universe(universeSize);
         }
         return sUniverse;
     }
 
-    private Universe (int universeSize, long randomSeed) {
+    private Universe (int universeSize) {
         universe = new boolean[universeSize][universeSize];
-        Random rand = new Random(randomSeed);
+        Random rand = new Random(System.currentTimeMillis());
 
         for (int i = 0; i < universeSize; i++) {
             for (int j = 0; j < universeSize; j++) {
@@ -34,9 +34,13 @@ class Universe {
     void setUniverse(boolean[][] universe) {
         this.universe = Arrays.stream(universe).map(r -> r.clone()).toArray(boolean[][]::new);
     }
-    void resetUniverse() {
+    static void resetUniverse() {
+        if (sUniverse == null) {
+            return;
+        }
+
         Evolution.resetEvolution();
-        for (boolean[] row: universe) {
+        for (boolean[] row: sUniverse.universe) {
             Arrays.fill(row, false);
         }
     }
