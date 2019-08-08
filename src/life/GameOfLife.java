@@ -144,7 +144,7 @@ public class GameOfLife extends JFrame {
         add(sizeSliderLabel);
 
         setLayout(null);
-        setSize(xOffset,  300);
+        setSize(xOffset + leftMargin,  300);
         // setResizable(false);
         setVisible(true);
     }
